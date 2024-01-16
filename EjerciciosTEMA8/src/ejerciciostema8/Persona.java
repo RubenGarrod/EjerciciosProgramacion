@@ -9,11 +9,18 @@ package ejerciciostema8;
  * @author alumnot
  */
 public class Persona {
-    String nombre;
-    String DNI;
-    String apellido1;
-    String apellido2;
-    int edad;
+    private String nombre;
+    private String dni;
+    private String apellido;
+    private int edad;
+    
+    public Persona(String dni, String nombre, String apellido, int edad) {
+		this.dni = dni;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.edad = edad;
+	}
+
 
     /**
      * @return the nombre
@@ -33,42 +40,28 @@ public class Persona {
      * @return the DNI
      */
     public String getDNI() {
-        return DNI;
+        return dni;
     }
 
     /**
      * @param DNI the DNI to set
      */
     public void setDNI(String DNI) {
-        this.DNI = DNI;
+        this.dni = DNI;
     }
 
     /**
      * @return the apellido1
      */
-    public String getApellido1() {
-        return apellido1;
+    public String getApellido() {
+        return apellido;
     }
 
     /**
-     * @param apellido1 the apellido1 to set
+     * @param apellido the apellido1 to set
      */
-    public void setApellido1(String apellido1) {
-        this.apellido1 = apellido1;
-    }
-
-    /**
-     * @return the apellido2
-     */
-    public String getApellido2() {
-        return apellido2;
-    }
-
-    /**
-     * @param apellido2 the apellido2 to set
-     */
-    public void setApellido2(String apellido2) {
-        this.apellido2 = apellido2;
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     /**

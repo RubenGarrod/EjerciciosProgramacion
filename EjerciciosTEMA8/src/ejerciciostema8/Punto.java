@@ -6,7 +6,7 @@ package ejerciciostema8;
  * @author alumnot
  */
 public class Punto {
-    int x,y;
+    private int x,y;
     
     public Punto(int x, int y){    
 	this.x = x;

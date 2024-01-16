@@ -9,9 +9,9 @@ package ejerciciostema8;
  * @author alumnot
  */
 public class Articulo {
-    String nombre;
-    double precio;
-    int cuantosQuedan;
+    private String nombre;
+    private double precio;
+    private int cuantosQuedan;
     
     public Articulo(String nombre, double precio, int cuantosQuedan) {
         this.nombre = nombre;
@@ -60,4 +60,6 @@ public class Articulo {
     public void setCuantosQuedan(int cuantosQuedan) {
         this.cuantosQuedan = cuantosQuedan;
     }
+    
+    
 }
