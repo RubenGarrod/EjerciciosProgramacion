@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package ejerciciostema8;
 
 /**
@@ -9,18 +6,20 @@ package ejerciciostema8;
  * @author alumnot
  */
 public class Persona {
+
     private String nombre;
     private String dni;
     private String apellido;
     private int edad;
-    
-    public Persona(String dni, String nombre, String apellido, int edad) {
-		this.dni = dni;
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.edad = edad;
-	}
+    private static final int mayoriaEdad = 18;
+    private static final int jubilacionEdad = 65;
 
+    public Persona(String dni, String nombre, String apellido, int edad) {
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.edad = edad;
+    }
 
     /**
      * @return the nombre
@@ -77,5 +76,41 @@ public class Persona {
     public void setEdad(int edad) {
         this.edad = edad;
     }
-    
+    /**
+     * 
+     */
+    public void imprime() {
+        System.out.println("DNI: " + dni + ", Nombre: " + nombre + ", Apellido: " + apellido + ", Edad: " + edad);
+    }
+    /**
+     * 
+     * @return 
+     */
+    public boolean esMayorEdad() {
+        return edad >= mayoriaEdad;
+    }
+    /**
+     * 
+     * @return 
+     */
+    public boolean esJubilado() {
+        return edad >= jubilacionEdad;
+    }
+    /**
+     * 
+     * @param p
+     * @return 
+     */
+    public int diferenciaEdad(Persona p) {
+        return Math.abs(this.edad - p.edad); //Math.abs devuelve el valor absoluto
+    }
+    /**
+     * 
+     * @param dni
+     * @return 
+     */
+    public static boolean validarDNI(String dni) {
+        String validador = "\\d{8}[A-HJ-NP-TV-Z]";
+        return dni.matches(validador);
+    }
 }

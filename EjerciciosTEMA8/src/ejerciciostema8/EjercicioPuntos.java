@@ -30,22 +30,30 @@ public class EjercicioPuntos {
         System.out.println("El punto 2 tiene las siguientes coordenadas: " + "(" + p2.getX() + "," + p2.getY() + ")");
         System.out.println("El punto 3 tiene las siguientes coordenadas: " + "(" + p3.getX() + "," + p3.getY() + ")");
         
-        System.out.println("La distancia entre p1 y p2 es: " + distanciaPuntos(p1.getX(), p1.getY(), p2.getX(), p2.getY()));
-    }
+        System.out.println("Con el metodo imprime:");
+        p1.imprime();
+        p2.imprime();
+        
+        System.out.println("Con un p1.setXY(2, 3):");
+        p1.setXY(2, 3);
+        p1.imprime();
+        
+        System.out.println("Con desplazamiento: p2.desplaza(-2, 3);");
+        p2.desplaza(-2, 3);
+        p2.imprime();
 
-    /**
-     * Recibe las coordenadas de 2 puntos y calcula la distancia entre ellos
-     *
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
-     * @return
-     */
-    public static double distanciaPuntos(int x1, int y1, int x2, int y2) {
-        double diferenciaX = x2 - x1;
-        double diferenciaY = y2 - y1;
-        return Math.sqrt(diferenciaX * diferenciaX + diferenciaY * diferenciaY);
-    }
+        int distanciaPuntos = p1.distanciaPuntos(p2);
+        System.out.println("La distancia entre los puntos p1 y p2 es: " + distanciaPuntos);
 
+        Punto p4 = Punto.puntoRandom();
+        Punto p5 = Punto.puntoRandom();
+        Punto p6 = Punto.puntoRandom();
+
+        System.out.println("Punto aleatorio: ");
+        p4.imprime();
+        System.out.println("Punto aleatorio: ");
+        p5.imprime();
+        System.out.println("Punto aleatorio: ");
+        p6.imprime();
+    }
 }

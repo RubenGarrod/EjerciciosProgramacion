@@ -1,4 +1,3 @@
-
 package ejerciciostema8;
 
 import java.util.Scanner;
@@ -11,32 +10,38 @@ public class EjercicioPersonas {
 
     public void Ejecutar() {
         Scanner sc = new Scanner(System.in);
-        
-        Persona p1 = new Persona("12345678A", "Juan", "Pérez", 25);
-        /*
-        System.out.println("Introduzca un nombre: ");
-        p1.nombre = sc.nextLine();
-        System.out.println("Introduzca el primer apellido: ");
-        p1.apellido = sc.nextLine();
-        System.out.println("Introduzca el DNI: ");
-        p1.dni = sc.nextLine();
-        System.out.println("Introduzca la edad: ");
-        p1.edad = sc.nextInt();*/
-        /*
-        int anos = p1.edad;
-        if (mayorEdad(anos)){
-            System.out.println(p1.nombre + " " + p1.apellido + " con DNI " + p1.dni + " es mayor de edad.");
-        } else {
-            System.out.println(p1.nombre + " " + p1.apellido + " con DNI " + p1.dni + " no es mayor de edad."); 
-        }*/
 
-    }
+        Persona persona1 = new Persona("11111158F", "Ruben", "Garcia", 26);
+        persona1.imprime();
 
-    public static boolean mayorEdad(int anos){
-        if (anos < 18){
-            return false;
+        System.out.print("Es mayor de edad? -> ");
+        if (persona1.esMayorEdad()) {
+            System.out.println("SI");
         } else {
-            return true;
+            System.out.println("NO");
+        }
+        System.out.print("Es jubilado? -> ");
+        if (persona1.esJubilado()) {
+            System.out.println("SI");
+        } else {
+            System.out.println("NO");
+        }
+
+        Persona persona2 = new Persona("1618YY53W", "Onofre", "Genio", 33);
+        System.out.println("La diferencia de edad entre " + persona1.getNombre() + " y " + persona2.getNombre() + " es de " + persona1.diferenciaEdad(persona2) + " anhos.");
+
+        System.out.print("Es valido el DNI de " + persona1.getNombre() + "? ->");
+        if (Persona.validarDNI(persona1.getDNI())) {
+            System.out.println("SI");
+        } else {
+            System.out.println("NO");
+        }
+
+        System.out.print("Es valido el DNI de " + persona2.getNombre() + "? ->");
+        if (Persona.validarDNI(persona2.getDNI())) {
+            System.out.println("SI");
+        } else {
+            System.out.println("NO");
         }
     }
 }
