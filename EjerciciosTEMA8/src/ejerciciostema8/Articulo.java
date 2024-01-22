@@ -15,7 +15,7 @@ public class Articulo {
     private final double IVA4 = 0.04;
     private double tipoIVA;
 
-    public Articulo(String nombre, double precio, double iva, int cuantosQuedan) {
+    public Articulo(String nombre, double precio, int cuantosQuedan) {
         if (nombre == null || nombre.isEmpty() || precio < 0 || cuantosQuedan < 0) {
             System.out.println("Alguno de los valores no es valido. No ha sido regustrado el articulo.");
         } else {
