@@ -1,4 +1,4 @@
-package ejerciciostema8;
+package cuerposcelestes;
 
 import java.util.ArrayList;
 import java.util.Iterator;

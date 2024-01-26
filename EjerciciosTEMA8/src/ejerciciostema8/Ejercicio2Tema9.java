@@ -4,6 +4,8 @@
  */
 package ejerciciostema8;
 
+import cuerposcelestes.Planeta;
+import cuerposcelestes.Satelite;
 import java.util.ArrayList;
 import java.util.Scanner;
 
