@@ -1,5 +1,5 @@
 
-package empresaparking;
+package vehiculos;
 
 /**
  *
@@ -10,7 +10,8 @@ public abstract class Vehiculo {
     private String modelo;
     
     public Vehiculo (String matricula, String modelo){
-        
+        this.matricula = matricula;
+        this.modelo = modelo;       
     }
 
     /**
@@ -41,4 +42,5 @@ public abstract class Vehiculo {
         this.modelo = modelo;
     }
     
+    public abstract void imprimir();
 }
