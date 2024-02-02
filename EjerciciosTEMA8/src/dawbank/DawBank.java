@@ -1,5 +1,6 @@
 package dawbank;
 
+import java.util.Iterator;
 import java.util.Scanner;
 
 /**
@@ -11,16 +12,20 @@ public class DawBank {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int opcion;
-        
+
         System.out.println("Bienvenido al sistema de DawBank");
         System.out.println("Por favor, introduzca los datos de su cuenta bancaria:");
         System.out.print("IBAN: ");
         String iban = sc.nextLine();
+        /*while (!(iban.matches("^[A-Z][2]\\d[22]"))){ 
+            System.out.print("[ERROR] Vuelva a introducir el IBAN: ");
+            iban = sc.nextLine();
+        }*/
         System.out.print("Titular: ");
         String titular = sc.nextLine();
         CuentaBancaria c1 = new CuentaBancaria(iban, titular);
         System.out.println("Cuenta creada correctamente.");
-        
+
         do {
             System.out.println("\nMenu principal:");
             System.out.println("1. Datos de la cuenta");
@@ -59,7 +64,8 @@ public class DawBank {
                 }
                 case 7 -> {
                     System.out.println("Movimientos:");
-                    for (String movimiento : c1.getMovimientos()) {
+                    for (Iterator<String> it = c1.getMovimientos().iterator(); it.hasNext();) {
+                        String movimiento = it.next();
                         System.out.println(movimiento);
                     }
                 }

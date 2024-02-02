@@ -16,6 +16,7 @@ public class CuentaBancaria {
      * Constructor de la clase CuentaBancaria
      * @param iban
      * @param titular 
+     * @throws dawbank.CuentaException 
      */
     public CuentaBancaria(String iban, String titular) {
         this.iban = iban;
@@ -28,12 +29,12 @@ public class CuentaBancaria {
      * mayor que 0 actualiza el saldo, si es menor notifica el error.
      * @param cantidad 
      */
-    public void ingreso(double cantidad) {
+    public void ingreso(double cantidad) throws CuentaException {
         if (cantidad > 0) {
             setSaldo(getSaldo() + cantidad);
             getMovimientos().add("Ingreso de " + cantidad + " creditos");
         } else {
-            System.out.println("[ERROR] Ingrtesar una cantidad negativa es un retirada.");
+            throw new CuentaException("[ERROR] Ingrtesar una cantidad negativa es un retirada.");
         }
     }
     /**
@@ -45,19 +46,19 @@ public class CuentaBancaria {
      * La tercera si la cantidad es mayor a 3000 avisa al usuario de que se notificará a hacienda el movimiento.
      * @param cantidad 
      */
-    public void retirada(double cantidad) {
+    public void retirada(double cantidad) throws CuentaException, AvisarHaciendaException {
         if (cantidad > 0) {
             if (getSaldo() - cantidad >= -50) {
                 setSaldo(getSaldo() - cantidad);
                 getMovimientos().add("Retirada de " + cantidad + " creditos");
                 if (cantidad > 3000) {
-                    System.out.println("AVISO: Notificar a hacienda");
+                    throw new AvisarHaciendaException("AVISO: Notificar a hacienda");
                 }
             } else {
-                System.out.println("[ERROR] Saldo negativo, no podemos permitir una cuenta con una deuda mayor a 50 creditos");
+                throw new CuentaException("[ERROR] Saldo negativo, no podemos permitir una cuenta con una deuda mayor a 50 creditos");
             }
         } else {
-            System.out.println("[ERROR] Retirar una cantidad negativa es un ingrerso.");
+            throw new CuentaException("[ERROR] Retirar una cantidad negativa es un ingrerso.");
         }
     }
 
