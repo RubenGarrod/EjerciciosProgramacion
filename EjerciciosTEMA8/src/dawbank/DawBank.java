@@ -1,5 +1,6 @@
 package dawbank;
 
+import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -9,9 +10,10 @@ import java.util.Scanner;
  */
 public class DawBank {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CuentaException, AvisarHaciendaException {
         Scanner sc = new Scanner(System.in);
-        int opcion;
+        int opcion = 0;
+        boolean valida = false;
 
         System.out.println("Bienvenido al sistema de DawBank");
         System.out.println("Por favor, introduzca los datos de su cuenta bancaria:");
@@ -27,17 +29,25 @@ public class DawBank {
         System.out.println("Cuenta creada correctamente.");
 
         do {
-            System.out.println("\nMenu principal:");
-            System.out.println("1. Datos de la cuenta");
-            System.out.println("2. Mostrar IBAN");
-            System.out.println("3. Mostrar Titular");
-            System.out.println("4. Mostrar Saldo");
-            System.out.println("5. Realizar Ingreso");
-            System.out.println("6. Realizar Retirada");
-            System.out.println("7. Mostrar Movimientos");
-            System.out.println("8. Salir");
-            System.out.print("Por favor, seleccione una opcion: ");
-            opcion = sc.nextInt();
+            while (!valida) {
+                System.out.println("\nMenu principal:");
+                System.out.println("1. Datos de la cuenta");
+                System.out.println("2. Mostrar IBAN");
+                System.out.println("3. Mostrar Titular");
+                System.out.println("4. Mostrar Saldo");
+                System.out.println("5. Realizar Ingreso");
+                System.out.println("6. Realizar Retirada");
+                System.out.println("7. Mostrar Movimientos");
+                System.out.println("8. Salir");
+                System.out.print("Por favor, seleccione una opcion: ");
+                try {
+                    opcion = sc.nextInt();
+                    valida = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("[ERROR] por favor introduzca una de las opciones del menu.");
+                    sc.nextLine();
+                }
+            }
             sc.nextLine();//Buffer
             switch (opcion) {
                 case 1 ->
