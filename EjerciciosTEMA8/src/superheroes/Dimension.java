@@ -62,7 +62,13 @@ public class Dimension {
     public void setProfundidad(double profundidad) {
         this.profundidad = profundidad;
     }
-    
+    /**
+     * Multiplica las tres dimensiones para calcular el volumen que ocupa la figura.
+     * @param ancho
+     * @param alto
+     * @param profundidad
+     * @return 
+     */
     public double getVolumen(double ancho, double alto, double profundidad){
         return ancho*alto*profundidad;
     }

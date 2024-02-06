@@ -66,8 +66,6 @@ public class Superheroe {
     public String toString(){
         return  "Superheroe: " + getNombre() + '\n'
                 + "Descripcion: " + getDescripcion() + '\n' 
-                + "Lleva Capa? " + isCapa()
-                + '}';
+                + "Lleva Capa? " + isCapa();
     }
-
 }
