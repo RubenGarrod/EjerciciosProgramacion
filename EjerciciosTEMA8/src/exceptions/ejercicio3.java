@@ -22,7 +22,7 @@ public class ejercicio3 {
                     array[i] = sc.nextDouble();
                     valido = true;
                 } catch (Exception e) {
-                    System.out.println("Recuerda que debe ser un numero.");
+                    System.out.println(e.getMessage());
                     sc.nextLine();
                 }
             } while (!valido);

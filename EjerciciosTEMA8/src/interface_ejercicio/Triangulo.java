@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
  *
  * @author alumnot
  */
-public class Triangulo implements Figura2D {
+public class Triangulo implements Figura2D, NewInterface {
 
     private double base;
     private double altura;
@@ -20,6 +20,7 @@ public class Triangulo implements Figura2D {
     /**
      * @return the base
      */
+    @Override
     public double getBase() {
         return base;
     }
@@ -34,6 +35,7 @@ public class Triangulo implements Figura2D {
     /**
      * @return the altura
      */
+    @Override
     public double getAltura() {
         return altura;
     }

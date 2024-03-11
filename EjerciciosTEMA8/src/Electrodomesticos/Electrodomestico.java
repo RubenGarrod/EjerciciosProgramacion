@@ -5,7 +5,7 @@
 package Electrodomesticos;
 
 /**
- *
+ *yttyu
  * @author AlumnoT
  */
 public class Electrodomestico {
