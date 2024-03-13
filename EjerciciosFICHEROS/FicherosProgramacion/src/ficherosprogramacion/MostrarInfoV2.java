@@ -1,11 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ficherosprogramacion;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -19,12 +17,12 @@ public class MostrarInfoV2 {
         boolean noVacia = true;
 
         while (noVacia) {
-            System.out.println("Introduzca una ruta absouta:  (por ejemplo, “C:/Windows” o “Documentos”)");
+            System.out.println("Introduzca una ruta absouta:  (por ejemplo, C:/Windows)");
             String dir = sc.nextLine();
             if (!dir.isEmpty()) {
                 File ruta = new File(dir);
                 try {
-                    muestraInfoRuta(ruta);
+                    muestraInfoRuta(ruta, true);
                 } catch (Exception e) {
                     System.out.println("ERROR" + e);
                 }
@@ -34,16 +32,21 @@ public class MostrarInfoV2 {
         }
     }
 
-    public static void muestraInfoRuta(File ruta) throws FileNotFoundException {
+  public static void muestraInfoRuta(File ruta, boolean info) throws FileNotFoundException {
         File[] listaArchivos = ruta.listFiles();
         if (ruta.exists()) {
+            Arrays.sort(listaArchivos); 
             for (int i = 0; i < listaArchivos.length; i++) {
                 File tmp = listaArchivos[i];
                 if (tmp.isDirectory()) {
-                    System.out.println("DIR " + tmp.getName());
+                    System.out.print("[*] " + tmp.getName());
                 } else {
-                    System.out.println("ARCHIVO " + tmp.getName());
+                    System.out.print("[A] " + tmp.getName());
                 }
+                if (info) {
+                    System.out.print("\t\t|| Tamano " + tmp.length() + " bytes" + "\t|| Modificado por ultima vez: " + new Date(tmp.lastModified()) + "||");
+                }
+                System.out.println();
             }
         } else {
             throw new FileNotFoundException();
