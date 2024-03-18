@@ -87,31 +87,37 @@ public class MiniFileManager {
      */
     void printList(boolean info, File ruta) throws FileNotFoundException {
         File[] listaArchivos = ruta.listFiles();
-        Arrays.sort(listaArchivos);
         if (ruta.exists()) {
-            Arrays.sort(listaArchivos);
-            for (int i = 0; i < listaArchivos.length; i++) {
-                File tmp = listaArchivos[i];
+            Arrays.sort(listaArchivos, (i, j) -> {
+                if (i.isDirectory() && !j.isDirectory()) {
+                    return -1; //Ficheros 
+                } else if (!i.isDirectory() && j.isDirectory()) {
+                    return 1; //Archivos
+                } else {
+                    return i.getName().compareToIgnoreCase(j.getName()); //Si son iguales alfabeticamente
+                }
+            });
+
+            for (File tmp : listaArchivos) {
                 if (tmp.isDirectory()) {
                     System.out.println("[*] " + tmp.getName());
                 } else {
                     System.out.println("[A] " + tmp.getName());
                 }
                 if (info) {
-                    System.out.println("\t\t|| Tamano " + tmp.length() + " bytes" + "\t|| Modificado por ultima vez: " + new Date(tmp.lastModified()) + "||");
+                    System.out.println("\t\t|| Tamaño " + tmp.length() + " bytes" + "\t|| Modificado por última vez: " + new Date(tmp.lastModified()));
                 }
-                System.out.println();
             }
         } else {
             throw new FileNotFoundException();
         }
     }
-    
-    public boolean moverArchivo(String ruta1, String ruta2, File referencia){
+
+    public boolean moverArchivo(String ruta1, String ruta2, File referencia) {
         File origen = new File(referencia.getAbsolutePath() + "/" + ruta1);
-        File destino = new File(referencia.getAbsolutePath()+ "/" + ruta2);
-        
-        if(!origen.exists()){
+        File destino = new File(referencia.getAbsolutePath() + "/" + ruta2);
+
+        if (!origen.exists()) {
             System.out.println("[ERROR] No se ha encontrado el archivo");
         }
         return origen.renameTo(destino);
