@@ -12,76 +12,67 @@ import java.util.Scanner;
  */
 public class Terminal {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Scanner command = new Scanner(System.in);
         String[] opcion;
+        boolean info;
         MiniFileManager fm = new MiniFileManager();
-        File referencia = new File("C:\\Users\\AlumnoT");
-        
-     
-       
+        File referencia = new File("C:\\Users\\AlumnoT\\Documents");
 
         do {
-            System.out.print("AlumnoT@ubuntu:~$");
+            System.out.print("\nAlumnoT@ubuntu:~$");
             opcion = (command.nextLine()).split(" ");
             switch (opcion[0].toLowerCase()) {
-                case "pwd" -> {
+                case "pwd": {
                     System.out.println("\nCarpeta actual: " + referencia.getAbsolutePath());
-
                 }
-                case "cd" -> {
+                case "cd":  {
                     if (opcion.length > 2) {
                         String nuevaRuta = "";
-                        for (int i = 0; i < opcion.length; i++) {
+                        for (int i = 1; i < opcion.length; i++) {
                             nuevaRuta += opcion[i] + " ";
                         }
-                        fm.changeDir(nuevaRuta);
+                        fm.changeDir(nuevaRuta, referencia);
                     }
+                    break;
                 }
-                case "ls" -> {
-                    for (File tmp : referencia.listFiles()) {
-                        System.out.println(tmp.getName());
+                case "ls": {
+                    info = false;
+                    fm.printList(info, referencia);
+                    break;
+                }
+                case "ll": {
+                    info = true;
+                    fm.printList(info, referencia);
+                    break;
+                }
+                case "mkdir": {
+                    if (opcion.length >= 2) {
+                        String dir = "";
+                        for (int i = 1; i < opcion.length; i++) {
+                            dir += opcion[i] + " ";
+                        }
+                        fm.mkDir(dir, referencia);
                     }
+                    break;
                 }
-                case "ll" -> {
-                    for (File tmp : referencia.listFiles()) {
-                        System.out.println("\nNombre del archivo " + tmp.getName() + "  ||  Tamanno: " + tmp.length());
-                        System.out.println("Ultima modificacion: " + new Date(tmp.lastModified()));
-                    }
-                }
-                case "mkdir" -> {
-                    String dir = sc.nextLine();
-                    File nuevoDir = new File(referencia, dir);
+                case "rm": {
                     try {
-                        nuevoDir.mkdir();
-                        System.out.println("Directorio creado: " + nuevoDir.getAbsolutePath());
+                        fm.borraTodo(referencia);
                     } catch (Exception e) {
-                        System.out.println("[ERROR] no se ha podido crear el directorio.");
+                        System.out.println("[ERROR] no se ha podido borrar el directorio.");
                     }
+                    break;
                 }
-                case "rm" -> {
-                    String file = sc.nextLine();
-                    File fileBorrar = new File(referencia, file);
-                    try {
-                        fileBorrar.delete();
-                        System.out.println("Archivo borrado: " + fileBorrar.getAbsolutePath());
-                    } catch (Exception e) {
-                        System.out.println("[ERROR] no se ha podido borrar el archivo.");
+                case "mv": {
+                    if(fm.moverArchivo(opcion[1], opcion[2], referencia)) {
+                        System.out.println("Archivo/fichero renombrado correctamente.");
+                    } else {
+                        System.out.println("[ERROR] no se ha podido mover/renombrar el archivo/fichero.");
                     }
+                    break;
                 }
-                case "mv" -> {
-                    String file1 = sc.nextLine();
-                    String file2 = sc.nextLine();
-                    File origen = new File(referencia, file1);
-                    File destino = new File(referencia, file2);
-                    try {
-                        origen.renameTo(destino);
-                        System.out.println("Archivo movido/renombrado.");
-                    } catch (Exception e) {
-                        System.out.println("Error al mover/renombrar el archivo.");
-                    }
-                }
-                case "help" -> {
+                case "help": {
                     System.out.println("\n\nHELP:");
                     System.out.println("  pwd: Muestra cual es la carpeta actual.");
                     System.out.println("  cd <DIR>: Cambia la carpeta actual a ‘DIR’. Con .. cambia a la carpeta superior");
@@ -91,14 +82,16 @@ public class Terminal {
                     System.out.println("  rm <FILE>: Borra ‘FILE’. Si es una carpeta, borrará primero sus archivos y luego la carpeta.");
                     System.out.println("  mv <FILE1> <FILE2>: Mueve o renombra ‘FILE1’ a ‘FILE2’.");
                     System.out.println("  exit: Termina el programa.");
-                }
-                case "exit" ->{
                     break;
                 }
-                default -> {
+                case "exit": {
+                    break;
+                }
+                default: {
                     System.out.println("[ERROR] Comando no disponible. [help para visualizar la lista de comandos]");
+                    break;
                 }
             }
-        } while (opcion[0].toLowerCase() != "exit");
+        } while (!"exit".equals(opcion[0].toLowerCase()));
     }
 }
