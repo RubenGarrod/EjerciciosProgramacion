@@ -10,6 +10,12 @@ import java.util.Scanner;
  */
 public class DawBank {
 
+    /**
+     *
+     * @param args
+     * @throws CuentaException
+     * @throws AvisarHaciendaException
+     */
     public static void main(String[] args) throws CuentaException, AvisarHaciendaException {
         Scanner sc = new Scanner(System.in);
         int opcion = 0;

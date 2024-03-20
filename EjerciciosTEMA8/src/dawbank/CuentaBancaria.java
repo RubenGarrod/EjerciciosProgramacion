@@ -16,7 +16,6 @@ public class CuentaBancaria {
      * Constructor de la clase CuentaBancaria
      * @param iban
      * @param titular 
-     * @throws dawbank.CuentaException 
      */
     public CuentaBancaria(String iban, String titular) {
         this.iban = iban;
@@ -28,6 +27,7 @@ public class CuentaBancaria {
      * Funcion que recibe una cantidad a ingresar en la cuenta bancaria si es 
      * mayor que 0 actualiza el saldo, si es menor notifica el error.
      * @param cantidad 
+     * @throws dawbank.CuentaException 
      */
     public void ingreso(double cantidad) throws CuentaException {
         if (cantidad > 0) {
@@ -45,6 +45,8 @@ public class CuentaBancaria {
      *         Si queda por encima retirará esa cantidad de la cuenta y actulizara el saldo.
      * La tercera si la cantidad es mayor a 3000 avisa al usuario de que se notificará a hacienda el movimiento.
      * @param cantidad 
+     * @throws dawbank.CuentaException 
+     * @throws dawbank.AvisarHaciendaException 
      */
     public void retirada(double cantidad) throws CuentaException, AvisarHaciendaException {
         if (cantidad > 0) {
