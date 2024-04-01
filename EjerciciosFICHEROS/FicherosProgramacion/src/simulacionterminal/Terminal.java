@@ -1,13 +1,12 @@
 package simulacionterminal;
 
 import java.io.File;
-import static java.lang.Compiler.command;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.Scanner;
 
 /**
- *
+ * Clase principal que simula una terminal(Linux).
+ * Comandos disponibles: pwd, cd, ls, ll, mkdir, rm, mv, help y exit.
+ * 
  * @author AlumnoT
  */
 public class Terminal {
@@ -26,13 +25,13 @@ public class Terminal {
                 case "pwd": {
                     System.out.println("\nCarpeta actual: " + referencia.getAbsolutePath());
                 }
-                case "cd":  {
+                case "cd": {
                     if (opcion.length > 2) {
                         String nuevaRuta = "";
                         for (int i = 1; i < opcion.length; i++) {
                             nuevaRuta += opcion[i] + " ";
                         }
-                        fm.changeDir(nuevaRuta, referencia);
+                        referencia = fm.changeDir(nuevaRuta, referencia);
                     }
                     break;
                 }
@@ -65,7 +64,11 @@ public class Terminal {
                     break;
                 }
                 case "mv": {
-                    if(fm.moverArchivo(opcion[1], opcion[2], referencia)) {
+                    if (opcion.length < 3) {
+                        System.out.println("[ERROR] Sintaxis incorrecta. Uso: mv <FILE1> <FILE2>");
+                        break;
+                    }
+                    if (fm.moverArchivo(opcion[1], opcion[2], referencia)) {
                         System.out.println("Archivo/fichero renombrado correctamente.");
                     } else {
                         System.out.println("[ERROR] no se ha podido mover/renombrar el archivo/fichero.");
