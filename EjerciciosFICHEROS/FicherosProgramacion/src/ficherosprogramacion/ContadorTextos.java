@@ -3,7 +3,9 @@ package ficherosprogramacion;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -13,7 +15,7 @@ import java.util.Scanner;
 public class ContadorTextos {
     public static void main(String[] args) {
         try {
-        
+            //Instancia y scanner con el archivo
             File capitulo = new File("C:/Users/AlumnoT/Documents/quijote.txt");
             Scanner sc = new Scanner(capitulo);
             
@@ -50,12 +52,27 @@ public class ContadorTextos {
                     }
                 }
             }
+            
+            System.out.println("--------------------------------------------------------------------------------------");
             System.out.println("--------------------------------------------------------------------------------------");
             System.out.printf("%1s%25s%25s","Numero de lineas","Numero de palabras", "Numero de caracteres\n");
             System.out.printf("%1d%25d%23d",numLineas,numPalabras, numCaracteres);
             System.out.println("\n--------------------------------------------------------------------------------------\n");
+            
+            // ORDENAR las palabras en el HashMap por frecuencia
+            List<HashMap.Entry<String, Integer>> listaPalabras = new ArrayList<>(hashPalabras.entrySet());
+            listaPalabras.sort((a, b) -> b.getValue().compareTo(a.getValue()));
+            
+            // IMPRIMIR las 10 primeras palabras de lista ya ordenada con el formato anterior
+            System.out.println("--------------------------------------------------------------------------------------");
+            System.out.printf("%-20s%s\n", "Palabra", "Frecuencia");
+            System.out.println("--------------------------------------------------------------------------------------");
+            for (int i = 0; i < Math.min(10, listaPalabras.size()); i++) {
+                HashMap.Entry<String, Integer> entrada = listaPalabras.get(i);
+                System.out.printf("%-20s%d\n", entrada.getKey(), entrada.getValue());
+            }
         } catch(FileNotFoundException e) {
-            System.err.println("[ERROR]");
+            System.err.println("[ERROR] Archivo no encontrado.");
         }
     }
 }
