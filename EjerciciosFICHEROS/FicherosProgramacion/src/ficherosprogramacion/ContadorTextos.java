@@ -25,7 +25,7 @@ public class ContadorTextos {
             int numCaracteres = 0;
             
             //HasMap
-            HashMap<String,Integer> hashPalabras = new HashMap<String, Integer>();
+            HashMap<String,Integer> hashPalabras = new HashMap<>();
             
             //Leer linea por linea
             while(sc.hasNext()){
@@ -53,11 +53,11 @@ public class ContadorTextos {
                 }
             }
             
-            System.out.println("--------------------------------------------------------------------------------------");
+
             System.out.println("--------------------------------------------------------------------------------------");
             System.out.printf("%1s%25s%25s","Numero de lineas","Numero de palabras", "Numero de caracteres\n");
             System.out.printf("%1d%25d%23d",numLineas,numPalabras, numCaracteres);
-            System.out.println("\n--------------------------------------------------------------------------------------\n");
+            System.out.println("\n--------------------------------------------------------------------------------------");
             
             // ORDENAR las palabras en el HashMap por frecuencia
             List<HashMap.Entry<String, Integer>> listaPalabras = new ArrayList<>(hashPalabras.entrySet());
