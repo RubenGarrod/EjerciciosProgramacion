@@ -55,8 +55,8 @@ public class ContadorTextos {
             
 
             System.out.println("--------------------------------------------------------------------------------------");
-            System.out.printf("%1s%25s%25s","Numero de lineas","Numero de palabras", "Numero de caracteres\n");
-            System.out.printf("%1d%25d%23d",numLineas,numPalabras, numCaracteres);
+            System.out.printf("%s%25s%25s","Numero de lineas","Numero de palabras", "Numero de caracteres\n");
+            System.out.printf("%d%25d%23d",numLineas,numPalabras, numCaracteres);
             System.out.println("\n--------------------------------------------------------------------------------------");
             
             // ORDENAR las palabras en el HashMap por frecuencia
@@ -64,13 +64,13 @@ public class ContadorTextos {
             listaPalabras.sort((a, b) -> b.getValue().compareTo(a.getValue()));
             
             // IMPRIMIR las 10 primeras palabras de lista ya ordenada con el formato anterior
-            System.out.println("--------------------------------------------------------------------------------------");
-            System.out.printf("%-20s%s\n", "Palabra", "Frecuencia");
+            System.out.printf("%s%20s\n", "Palabra", "Frecuencia");
             System.out.println("--------------------------------------------------------------------------------------");
             for (int i = 0; i < Math.min(10, listaPalabras.size()); i++) {
                 HashMap.Entry<String, Integer> entrada = listaPalabras.get(i);
-                System.out.printf("%-20s%d\n", entrada.getKey(), entrada.getValue());
+                System.out.printf("%5s%20d\n", entrada.getKey(), entrada.getValue());
             }
+            System.out.println("--------------------------------------------------------------------------------------");
         } catch(FileNotFoundException e) {
             System.err.println("[ERROR] Archivo no encontrado.");
         }
