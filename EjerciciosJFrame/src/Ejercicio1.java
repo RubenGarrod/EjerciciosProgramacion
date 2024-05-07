@@ -9,12 +9,12 @@ import javax.swing.JOptionPane;
  *
  * @author AlumnoT
  */
-public class Ej01 extends javax.swing.JFrame {
+public class Ejercicio1 extends javax.swing.JFrame {
 
     /**
      * Creates new form Ej01
      */
-    public Ej01() {
+    public Ejercicio1() {
         initComponents();
     }
 
@@ -50,7 +50,7 @@ public class Ej01 extends javax.swing.JFrame {
         });
 
         BtnComprobar.setFont(new java.awt.Font("Fira Code Medium", 0, 12)); // NOI18N
-        BtnComprobar.setText("¿Par o Impar?");
+        BtnComprobar.setText("Â¿Par o Impar?");
         BtnComprobar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 calcularParImpar(evt);
@@ -145,20 +145,21 @@ public class Ej01 extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Ej01.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ejercicio1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Ej01.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ejercicio1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Ej01.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ejercicio1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Ej01.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ejercicio1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Ej01().setVisible(true);
+                new Ejercicio1().setVisible(true);
             }
         });
     }

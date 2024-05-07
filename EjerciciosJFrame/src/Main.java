@@ -99,11 +99,11 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jEjecutar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEjecutar1ActionPerformed
-        Ej01.ejecutar();
+        Ejercicio1.ejecutar();
     }//GEN-LAST:event_jEjecutar1ActionPerformed
 
     private void jEjecutar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEjecutar2ActionPerformed
-        Ej02.ejecutar();
+        Ejercicio2.ejecutar();
     }//GEN-LAST:event_jEjecutar2ActionPerformed
 
     /**
