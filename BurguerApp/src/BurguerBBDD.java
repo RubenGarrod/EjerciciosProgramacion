@@ -73,12 +73,12 @@ public class BurguerBBDD extends javax.swing.JFrame {
         papasCheck = new javax.swing.JCheckBox();
         dobleCheck = new javax.swing.JCheckBox();
         jPanel7 = new javax.swing.JPanel();
-        pvpTextField = new javax.swing.JTextField();
         precioLabel = new javax.swing.JLabel();
-        precioTextField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        ivaTextField1 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -412,6 +412,12 @@ public class BurguerBBDD extends javax.swing.JFrame {
 
         jLabel1.setText("IVA (21%)");
 
+        jLabel3.setText("jLabel3");
+
+        jLabel4.setText("jLabel4");
+
+        jLabel5.setText("jLabel5");
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -419,17 +425,19 @@ public class BurguerBBDD extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(precioTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(precioLabel))
-                .addGap(66, 66, 66)
+                    .addComponent(precioLabel)
+                    .addComponent(jLabel3))
+                .addGap(90, 90, 90)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ivaTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                    .addComponent(jLabel1)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel4)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pvpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addContainerGap())
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel5))
+                .addGap(33, 33, 33))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -441,9 +449,9 @@ public class BurguerBBDD extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(precioTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ivaTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pvpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
                 .addContainerGap())
         );
 
@@ -506,7 +514,7 @@ public class BurguerBBDD extends javax.swing.JFrame {
                 .addComponent(pedirButton)
                 .addGap(34, 34, 34)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
@@ -525,7 +533,7 @@ public class BurguerBBDD extends javax.swing.JFrame {
     
     private void pedirButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pedirButtonActionPerformed
         
-        
+        precio = 8;
         if (ternera.isEnabled() || vegana.isEnabled()){
             precio = precio + 1;
         }
@@ -549,9 +557,9 @@ public class BurguerBBDD extends javax.swing.JFrame {
         iva = precio*0.21;
         pvp = iva+precio;
         
-        precioTextField.setText(String.valueOf(precio));
-        ivaTextField1.setText(String.valueOf(iva));
-        pvpTextField.setText(String.valueOf(pvp));
+        jLabel3.setText(String.valueOf(precio));
+        jLabel4.setText(String.valueOf(iva));
+        jLabel5.setText(String.valueOf(pvp));
  
     }//GEN-LAST:event_pedirButtonActionPerformed
 
@@ -613,9 +621,11 @@ public class BurguerBBDD extends javax.swing.JFrame {
     private javax.swing.JRadioButton gajo;
     private javax.swing.ButtonGroup hamburguesaGroup;
     private javax.swing.JLabel hamburguesaLabel;
-    private javax.swing.JTextField ivaTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -641,8 +651,6 @@ public class BurguerBBDD extends javax.swing.JFrame {
     private javax.swing.JButton pedirButton;
     private javax.swing.JRadioButton pollo;
     private javax.swing.JLabel precioLabel;
-    private javax.swing.JTextField precioTextField;
-    private javax.swing.JTextField pvpTextField;
     private javax.swing.JCheckBox quesoCheck;
     private javax.swing.ButtonGroup repartoGroup;
     private javax.swing.JLabel salsasLabel;
