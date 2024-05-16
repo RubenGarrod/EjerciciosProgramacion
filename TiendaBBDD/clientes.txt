@@ -1,0 +1,10 @@
+Nombre 	 Direccion
+Lionel	Valencia
+Sergi	Valencia
+Alfredo	Valencia
+Paco	Valencia
+Maria	Castellón
+Pepito	Alicante
+Luis	Elx
+Antonia	Xàtiva
+Carmen	Paterna

@@ -1,24 +1,40 @@
-
 package tiendabbdd;
+
+import com.mysql.cj.xdevapi.Statement;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.sql.ResultSet;
 
 /**
  *
  * @author AlumnoT
  */
 public class GestionClientesIGU extends javax.swing.JFrame {
+
     private final String URL = "jdbc:mysql://localhost:3306/tienda?serverTimezone=UTC";
     private final String DBUSER = "root";
     private final String DBPASS = "Dam2324";
-    BDManager con = new BDManager(URL, DBUSER, DBPASS);
+    private BDManager con;
+
     /**
      * Creates new form GestionClientesIGU
      */
     public GestionClientesIGU() {
         initComponents();
-        
-        
-        
-        con.obtenerConexion();
+        con = new BDManager(URL, DBUSER, DBPASS);
+        if (con.obtenerConexion()) {
+            if (!con.obtenerClientes()) {
+                System.err.println("[ERROR] No se pudo obtener los datos de los clientes.");
+            }
+        } else {
+            System.err.println("[ERROR] No se pudo establecer conexión con la base de datos.");
+        }
     }
 
     /**
@@ -32,10 +48,6 @@ public class GestionClientesIGU extends javax.swing.JFrame {
 
         nuevoFrame = new javax.swing.JFrame();
         tituloLabel = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         sigButton = new javax.swing.JButton();
         primeroButton = new javax.swing.JButton();
@@ -45,11 +57,13 @@ public class GestionClientesIGU extends javax.swing.JFrame {
         borrarButton = new javax.swing.JButton();
         editarButton = new javax.swing.JButton();
         nuevoButton = new javax.swing.JButton();
-        idLabel = new javax.swing.JLabel();
-        idResultLabel = new javax.swing.JLabel();
         dirLabel = new javax.swing.JLabel();
-        dirResultLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
         nomResultLabel = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        dirResultLabel = new javax.swing.JLabel();
+        btnExport = new javax.swing.JButton();
 
         javax.swing.GroupLayout nuevoFrameLayout = new javax.swing.GroupLayout(nuevoFrame.getContentPane());
         nuevoFrame.getContentPane().setLayout(nuevoFrameLayout);
@@ -67,48 +81,12 @@ public class GestionClientesIGU extends javax.swing.JFrame {
         tituloLabel.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         tituloLabel.setText("GESTOR DE CLIENTES");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Nombre:");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 6, Short.MAX_VALUE)
-                .addComponent(jLabel1))
-        );
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 156, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 28, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 28, Short.MAX_VALUE)
-        );
-
         sigButton.setText(">>");
+        sigButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sigButtonActionPerformed(evt);
+            }
+        });
 
         primeroButton.setText("|<");
         primeroButton.addActionListener(new java.awt.event.ActionListener() {
@@ -118,8 +96,18 @@ public class GestionClientesIGU extends javax.swing.JFrame {
         });
 
         anteButton.setText("<<");
+        anteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                anteButtonActionPerformed(evt);
+            }
+        });
 
         ultimoButton.setText(">|");
+        ultimoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ultimoButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -153,6 +141,11 @@ public class GestionClientesIGU extends javax.swing.JFrame {
         editarButton.setText("Editar");
 
         nuevoButton.setText("Nuevo");
+        nuevoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nuevoButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -165,7 +158,7 @@ public class GestionClientesIGU extends javax.swing.JFrame {
                 .addComponent(editarButton)
                 .addGap(18, 18, 18)
                 .addComponent(borrarButton)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,92 +171,196 @@ public class GestionClientesIGU extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        idLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        idLabel.setText("ID: ");
-
-        idResultLabel.setText("jLabel3");
-
         dirLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         dirLabel.setText("Direccion:");
 
-        dirResultLabel.setText("jLabel2");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setText("Nombre:");
 
-        nomResultLabel.setText("jLabel4");
+        jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        nomResultLabel.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(nomResultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(66, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(nomResultLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+        );
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        dirResultLabel.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(dirResultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(223, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(dirResultLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE))
+        );
+
+        btnExport.setText("Exportar lista de clientes");
+        btnExport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(tituloLabel)
-                .addGap(183, 183, 183))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(idLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(idResultLabel))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(dirLabel)
-                        .addGap(35, 35, 35)
-                        .addComponent(dirResultLabel)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(110, 110, 110)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(84, 84, 84))
             .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
+                .addGap(131, 131, 131)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(47, 47, 47)
+                .addGap(472, 472, 472))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(nomResultLabel)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(42, 42, 42)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dirLabel)
+                            .addComponent(jLabel1))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(54, 54, 54))))
+                        .addGap(203, 203, 203)
+                        .addComponent(tituloLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addComponent(btnExport)
+                        .addGap(112, 112, 112)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(dirLabel)
-                        .addComponent(dirResultLabel))
+                .addComponent(tituloLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExport))
+                .addGap(46, 46, 46)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(35, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(tituloLabel)
-                        .addGap(46, 46, 46)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(47, 47, 47)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(nomResultLabel)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(idLabel)
-                                .addComponent(idResultLabel)))
-                        .addGap(51, 51, 51)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(57, Short.MAX_VALUE))
+                        .addGap(12, 12, 12)
+                        .addComponent(dirLabel)
+                        .addContainerGap(35, Short.MAX_VALUE))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void primeroButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_primeroButtonActionPerformed
-        con.mostrarPrimero();
+        String[] cliente = con.mostrarPrimero();
+        if (cliente != null) {
+            nomResultLabel.setText(cliente[0] != null ? cliente[0] : "Nombre no disponible");
+            dirResultLabel.setText(cliente[1] != null ? cliente[1] : "Direccion no disponible");
+        } else {
+            nomResultLabel.setText("Nombre no disponible");
+            dirResultLabel.setText("Direccion no disponible");
+        }
     }//GEN-LAST:event_primeroButtonActionPerformed
+
+    private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
+        ResultSet rs = con.obtenerClientesResultSet();
+        if (rs == null) {
+            System.err.println("[ERROR] No hay datos para exportar.");
+            return;
+        }
+
+        File f = new File("clientes.txt");
+        try (FileWriter writer = new FileWriter(f, false)) {
+            boolean primera = true;
+            // Mover el cursor al inicio del ResultSet
+            if (rs.first()) {
+                // Escribir los datos en el archivo
+                do {
+                    if (primera) {
+                        writer.write("Nombre \t Direccion\n");
+                        primera = false;
+                    }
+                    String nombre = rs.getString("nombre");
+                    String direccion = rs.getString("direccion");
+                    writer.write(nombre + "\t" + direccion + "\n");
+                } while (rs.next());
+            } else {
+                System.err.println("[ERROR] El ResultSet está vacío.");
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(GestionClientesIGU.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionClientesIGU.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnExportActionPerformed
+
+    private void ultimoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ultimoButtonActionPerformed
+        String[] cliente = con.mostrarUltimo();
+        if (cliente != null) {
+            nomResultLabel.setText(cliente[0] != null ? cliente[0] : "Nombre no disponible");
+            dirResultLabel.setText(cliente[1] != null ? cliente[1] : "Direccion no disponible");
+        } else {
+            nomResultLabel.setText("Nombre no disponible");
+            dirResultLabel.setText("Direccion no disponible");
+        }
+    }//GEN-LAST:event_ultimoButtonActionPerformed
+
+    private void anteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anteButtonActionPerformed
+        String[] cliente = con.mostrarAnterior();
+        if (cliente != null) {
+            nomResultLabel.setText(cliente[0] != null ? cliente[0] : "Nombre no disponible");
+            dirResultLabel.setText(cliente[1] != null ? cliente[1] : "Dirección no disponible");
+        } else {
+            nomResultLabel.setText("Nombre no disponible");
+            dirResultLabel.setText("Dirección no disponible");
+        }
+    }//GEN-LAST:event_anteButtonActionPerformed
+
+    private void sigButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sigButtonActionPerformed
+        String[] cliente = con.mostrarSiguiente();
+        if (cliente != null) {
+            nomResultLabel.setText(cliente[0] != null ? cliente[0] : "Nombre no disponible");
+            dirResultLabel.setText(cliente[1] != null ? cliente[1] : "Dirección no disponible");
+        } else {
+            nomResultLabel.setText("Nombre no disponible");
+            dirResultLabel.setText("Dirección no disponible");
+        }
+    }//GEN-LAST:event_sigButtonActionPerformed
+
+    private void nuevoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nuevoButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -293,6 +390,22 @@ public class GestionClientesIGU extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(GestionClientesIGU.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(GestionClientesIGU.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(GestionClientesIGU.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(GestionClientesIGU.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new GestionClientesIGU().setVisible(true);
@@ -300,20 +413,19 @@ public class GestionClientesIGU extends javax.swing.JFrame {
         });
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton anteButton;
     private javax.swing.JButton borrarButton;
+    private javax.swing.JButton btnExport;
     private javax.swing.JLabel dirLabel;
     private javax.swing.JLabel dirResultLabel;
     private javax.swing.JButton editarButton;
-    private javax.swing.JLabel idLabel;
-    private javax.swing.JLabel idResultLabel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JLabel nomResultLabel;
     private javax.swing.JButton nuevoButton;
     private javax.swing.JFrame nuevoFrame;
