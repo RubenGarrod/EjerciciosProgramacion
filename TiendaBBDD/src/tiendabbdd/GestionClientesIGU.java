@@ -1,17 +1,17 @@
 package tiendabbdd;
 
-import com.mysql.cj.xdevapi.Statement;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 /**
+ * ESTARIA BIEN AÑADIR LO DE DESABILIRAR LOS BOTONES SI LA BASE DE DATOS ESTA
+ * VACIA
  *
  * @author AlumnoT
  */
@@ -20,7 +20,7 @@ public class GestionClientesIGU extends javax.swing.JFrame {
     private final String URL = "jdbc:mysql://localhost:3306/tienda?serverTimezone=UTC";
     private final String DBUSER = "root";
     private final String DBPASS = "Dam2324";
-    private BDManager con;
+    private final BDManager con;
 
     /**
      * Creates new form GestionClientesIGU
@@ -33,7 +33,7 @@ public class GestionClientesIGU extends javax.swing.JFrame {
                 System.err.println("[ERROR] No se pudo obtener los datos de los clientes.");
             }
         } else {
-            System.err.println("[ERROR] No se pudo establecer conexión con la base de datos.");
+            System.err.println("[ERROR] No se pudo establecer conexion con la base de datos.");
         }
     }
 
@@ -60,9 +60,11 @@ public class GestionClientesIGU extends javax.swing.JFrame {
         dirLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        nomResultLabel = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        textNombre = new javax.swing.JTextArea();
         jPanel7 = new javax.swing.JPanel();
-        dirResultLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textDir = new javax.swing.JTextArea();
         btnExport = new javax.swing.JButton();
 
         javax.swing.GroupLayout nuevoFrameLayout = new javax.swing.GroupLayout(nuevoFrame.getContentPane());
@@ -122,7 +124,7 @@ public class GestionClientesIGU extends javax.swing.JFrame {
                 .addComponent(sigButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ultimoButton)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,12 +135,22 @@ public class GestionClientesIGU extends javax.swing.JFrame {
                     .addComponent(sigButton)
                     .addComponent(anteButton)
                     .addComponent(primeroButton))
-                .addContainerGap())
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         borrarButton.setText("Borrar");
+        borrarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                borrarButtonActionPerformed(evt);
+            }
+        });
 
         editarButton.setText("Editar");
+        editarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarButtonActionPerformed(evt);
+            }
+        });
 
         nuevoButton.setText("Nuevo");
         nuevoButton.addActionListener(new java.awt.event.ActionListener() {
@@ -179,42 +191,36 @@ public class GestionClientesIGU extends javax.swing.JFrame {
 
         jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        nomResultLabel.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        textNombre.setColumns(20);
+        textNombre.setRows(5);
+        jScrollPane2.setViewportView(textNombre);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(nomResultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(66, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(nomResultLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         );
 
         jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        dirResultLabel.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        textDir.setColumns(20);
+        textDir.setRows(5);
+        jScrollPane1.setViewportView(textDir);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(dirResultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(223, Short.MAX_VALUE))
+            .addComponent(jScrollPane1)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(dirResultLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
         );
 
         btnExport.setText("Exportar lista de clientes");
@@ -229,54 +235,51 @@ public class GestionClientesIGU extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(131, 131, 131)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(472, 472, 472))
-            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(42, 42, 42)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dirLabel)
-                            .addComponent(jLabel1))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(dirLabel)
+                                    .addComponent(jLabel1))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(203, 203, 203)
-                        .addComponent(tituloLabel))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
+                        .addGap(17, 17, 17)
                         .addComponent(btnExport)
-                        .addGap(112, 112, 112)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(39, 39, 39)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addComponent(tituloLabel)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(35, 35, 35)
                 .addComponent(tituloLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExport))
-                .addGap(46, 46, 46)
+                    .addComponent(btnExport, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(35, Short.MAX_VALUE))
+                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(dirLabel)
-                        .addContainerGap(35, Short.MAX_VALUE))))
+                        .addComponent(dirLabel)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
@@ -285,18 +288,18 @@ public class GestionClientesIGU extends javax.swing.JFrame {
     private void primeroButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_primeroButtonActionPerformed
         String[] cliente = con.mostrarPrimero();
         if (cliente != null) {
-            nomResultLabel.setText(cliente[0] != null ? cliente[0] : "Nombre no disponible");
-            dirResultLabel.setText(cliente[1] != null ? cliente[1] : "Direccion no disponible");
+            textNombre.setText(cliente[0]);
+            textDir.setText(cliente[1]);
         } else {
-            nomResultLabel.setText("Nombre no disponible");
-            dirResultLabel.setText("Direccion no disponible");
+            textNombre.setText("Nombre no disponible");
+            textDir.setText("Direccion no disponible");
         }
     }//GEN-LAST:event_primeroButtonActionPerformed
 
     private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
         ResultSet rs = con.obtenerClientesResultSet();
         if (rs == null) {
-            System.err.println("[ERROR] No hay datos para exportar.");
+            JOptionPane.showMessageDialog(this, "No hay datos en la BBDD.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -315,8 +318,9 @@ public class GestionClientesIGU extends javax.swing.JFrame {
                     String direccion = rs.getString("direccion");
                     writer.write(nombre + "\t" + direccion + "\n");
                 } while (rs.next());
+                JOptionPane.showMessageDialog(this, "Clientes exportados con exito en el archivo clientes.txt");
             } else {
-                System.err.println("[ERROR] El ResultSet está vacío.");
+                JOptionPane.showMessageDialog(this, "No se pudieron obtener los clientes", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (IOException ex) {
             Logger.getLogger(GestionClientesIGU.class.getName()).log(Level.SEVERE, null, ex);
@@ -328,39 +332,88 @@ public class GestionClientesIGU extends javax.swing.JFrame {
     private void ultimoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ultimoButtonActionPerformed
         String[] cliente = con.mostrarUltimo();
         if (cliente != null) {
-            nomResultLabel.setText(cliente[0] != null ? cliente[0] : "Nombre no disponible");
-            dirResultLabel.setText(cliente[1] != null ? cliente[1] : "Direccion no disponible");
+            textNombre.setText(cliente[0]);
+            textDir.setText(cliente[1]);
         } else {
-            nomResultLabel.setText("Nombre no disponible");
-            dirResultLabel.setText("Direccion no disponible");
+            textNombre.setText("Nombre no disponible");
+            textDir.setText("Direccion no disponible");
         }
     }//GEN-LAST:event_ultimoButtonActionPerformed
 
     private void anteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anteButtonActionPerformed
         String[] cliente = con.mostrarAnterior();
         if (cliente != null) {
-            nomResultLabel.setText(cliente[0] != null ? cliente[0] : "Nombre no disponible");
-            dirResultLabel.setText(cliente[1] != null ? cliente[1] : "Dirección no disponible");
+            textNombre.setText(cliente[0]);
+            textDir.setText(cliente[1]);
         } else {
-            nomResultLabel.setText("Nombre no disponible");
-            dirResultLabel.setText("Dirección no disponible");
+            textNombre.setText("Nombre no disponible");
+            textDir.setText("Direccion no disponible");
         }
     }//GEN-LAST:event_anteButtonActionPerformed
 
     private void sigButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sigButtonActionPerformed
         String[] cliente = con.mostrarSiguiente();
         if (cliente != null) {
-            nomResultLabel.setText(cliente[0] != null ? cliente[0] : "Nombre no disponible");
-            dirResultLabel.setText(cliente[1] != null ? cliente[1] : "Dirección no disponible");
+            textNombre.setText(cliente[0]);
+            textDir.setText(cliente[1]);
         } else {
-            nomResultLabel.setText("Nombre no disponible");
-            dirResultLabel.setText("Dirección no disponible");
+            textNombre.setText("Nombre no disponible");
+            textDir.setText("Direccion no disponible");
         }
     }//GEN-LAST:event_sigButtonActionPerformed
 
     private void nuevoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoButtonActionPerformed
-        // TODO add your handling code here:
+
+        String nombre = textNombre.getText().trim();
+        String direccion = textDir.getText().trim();
+
+        //Primero verificamos que los campos no estan vacios y si lo estan un return para que no siga la ejecucion 
+        if (nombre.isEmpty() || direccion.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, rellene ambos campos antes de agregar un cliente.", "Campos vacios", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (con.insertarCliente(nombre, direccion)) {
+            JOptionPane.showMessageDialog(this, "Nuevo cliente agregado con exito.");
+            //Limpiar los campos de texto
+            textNombre.setText("");
+            textDir.setText("");
+            con.obtenerClientes(); // Refrescar la lista de clientes
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo agregar el cliente.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_nuevoButtonActionPerformed
+
+    private void borrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarButtonActionPerformed
+        if (con.eliminarClienteActual()) {
+            JOptionPane.showMessageDialog(this, "Cliente eliminado exitosamente.");
+            //Limpiar los campos de texto
+            textNombre.setText("Borrado");
+            textDir.setText("Borrado");
+            con.obtenerClientes(); // Refrescar la lista de clientes
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo eliminar el cliente.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_borrarButtonActionPerformed
+
+    private void editarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarButtonActionPerformed
+        // Obtener el texto modificado de las áreas de texto
+        String nombreNuevo = textNombre.getText().trim();
+        String direccionNueva = textDir.getText().trim();
+
+        // Verificar que los campos no estén vacíos
+        if (nombreNuevo.isEmpty() || direccionNueva.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, rellene ambos campos antes de actualizar el cliente.", "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Actualizar el cliente en la base de datos
+        if (con.actualizarCliente(nombreNuevo, direccionNueva)) {
+            JOptionPane.showMessageDialog(this, "Cliente actualizado exitosamente.");
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo actualizar el cliente.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_editarButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -419,18 +472,20 @@ public class GestionClientesIGU extends javax.swing.JFrame {
     private javax.swing.JButton borrarButton;
     private javax.swing.JButton btnExport;
     private javax.swing.JLabel dirLabel;
-    private javax.swing.JLabel dirResultLabel;
     private javax.swing.JButton editarButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JLabel nomResultLabel;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton nuevoButton;
     private javax.swing.JFrame nuevoFrame;
     private javax.swing.JButton primeroButton;
     private javax.swing.JButton sigButton;
+    private javax.swing.JTextArea textDir;
+    private javax.swing.JTextArea textNombre;
     private javax.swing.JLabel tituloLabel;
     private javax.swing.JButton ultimoButton;
     // End of variables declaration//GEN-END:variables
